@@ -88,9 +88,6 @@ void pusher(const int count) {
 	}
 }
 
-// thread_count 1     7
-//      coarse  1.3  2.8
-//        fine  1.4  2.9
 
 #include <chrono>
 
@@ -112,24 +109,33 @@ private:
 
 int main(int argc, const char * argv[]) {
     Timer t;
-    std::thread t1(pusher, 400000);
-    std::thread t2(pusher, 400000);
-    std::thread t3(pusher, 400000);
-    std::thread t4(pusher, 400000);
-    std::thread t5(pusher, 400000);
-    std::thread t6(pusher, 400000);
-    std::thread t7(pusher, 400000);
 
+	int number_of_threads = 4;
+	int problem_size = 210000;
+
+	int items_per_thread = problem_size / number_of_threads;
+
+    std::thread t1(pusher, items_per_thread);
+    std::thread t2(pusher, items_per_thread);
+    std::thread t3(pusher, items_per_thread);
+    std::thread t4(pusher, items_per_thread);
+	/*
+    std::thread t5(pusher, items_per_thread);
+    std::thread t6(pusher, items_per_thread);
+    std::thread t7(pusher, items_per_thread);
+	*/
     t1.join();
     t2.join();
     t3.join();
     t4.join();
+	/*
     t5.join();
     t6.join();
     t7.join();
-
+	*/
     std::cout << t.elapsed() << std::endl;
     std::cout << "Hello, World!\n";
+	std::cin.get();
     return 0;
 }
 
